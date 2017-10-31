@@ -1,0 +1,12 @@
+{
+  "name": "jenkins-docker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:apiwat-s/jenkins-docker.git",
+  "author": "Apiwat Suksuwan <apiwat.s@zanroo.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js"
+  }
+}
