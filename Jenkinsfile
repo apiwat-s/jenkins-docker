@@ -16,7 +16,7 @@ node {
     }
 
     stage('Push image') {
-        docker.withRegistry('https://registry.zrcdn.xyz', '	zr-registry') {
+        docker.withRegistry('https://registry.zrcdn.xyz', 'zr-registry') {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
         }
