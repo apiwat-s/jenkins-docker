@@ -16,8 +16,8 @@ spec:
     command:
     - cat
     tty: true
-  - name: node2
-    image: registry.zrcdn.xyz/arun/arun-base:node8-alpine
+  - name: golang
+    image: golang:1.8.0
     command:
     - cat
     tty: true
@@ -64,15 +64,14 @@ spec:
     }
     stage('Test') {
       steps {
-        container('node2') {
+        container('golang') {
           echo 'Test'
           sh 'echo $HOSTNAME'
-          sh 'git remote -v'
+          echo 'git remote -v'
           echo "${env.GIT_TAG}"
           echo "${env.GIT_HEAD}"
           echo "${env.PRODUCT_NAME}"
-          echo 'npm lint'
-          echo 'npm test'
+          echo 'go version'
         }
       }
     }
