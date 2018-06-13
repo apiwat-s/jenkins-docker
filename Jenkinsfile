@@ -75,5 +75,20 @@ spec:
         }
       }
     }
+    stage('Version') {
+      when {
+        expression { BRANCH_NAME ==~ /(develop|master|production)/ }
+      }
+      steps {
+        echo 'Versioning'
+        echo 'npm version patch -m "Bumped to %s"'
+        echo 'git push --tags'
+        echo 'git remote -v'
+        sh 'echo $HOSTNAME'
+        echo "${env.GIT_TAG}"
+        echo "${env.GIT_HEAD}"
+        echo "${env.PRODUCT_NAME}"
+      }
+    }
   }
 }
