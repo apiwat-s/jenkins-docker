@@ -29,31 +29,24 @@ pipeline {
     }
     stage('Build') {
       steps {
-        container('docker') {
+        container('node') {
           echo 'Build'
           sh 'echo $HOSTNAME'
           echo "${env.GIT_TAG}"
           echo "${env.GIT_HEAD}"
           echo "${env.NPM_TOKEN}"
-          script {
-            docker = docker.build("registry.zrcdn.xyz/apiwat/jenkins-docker:latest", "-f Dockerfile --build-arg NPM_TOKEN=${env.NPM_TOKEN} .")
-            docker.withRegistry('https://registry.zrcdn.xyz', 'zr-registry') {
-              docker.push("latest")
-            }
-          }
         }
       }
     }
     stage('Test') {
       steps {
-        container('golang') {
+        container('kubectl') {
           echo 'Test'
           sh 'echo $HOSTNAME'
-          sh 'git remote -v'
+          sh 'kubectl config view'
           echo "${env.GIT_TAG}"
           echo "${env.GIT_HEAD}"
           echo "${env.PRODUCT_NAME}"
-          sh 'go version'
         }
       }
     }
