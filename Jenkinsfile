@@ -44,6 +44,8 @@ pipeline {
       steps {
         container('node') {
           echo 'Test'
+          sh 'whoami'
+          sh 'printenv'
           sh 'echo $HOSTNAME'
           sh '/usr/local/bin/kubectl config view'
           echo "${env.GIT_TAG}"
