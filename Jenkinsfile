@@ -45,7 +45,7 @@ pipeline {
         container('node') {
           echo 'Test'
           sh 'echo $HOSTNAME'
-          sh 'kubectl config view'
+          sh '/usr/local/bin/kubectl config view'
           echo "${env.GIT_TAG}"
           echo "${env.GIT_HEAD}"
           echo "${env.PRODUCT_NAME}"
