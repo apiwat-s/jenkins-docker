@@ -47,7 +47,7 @@ pipeline {
           sh 'whoami'
           sh 'printenv'
           sh 'echo $HOSTNAME'
-          sh '/usr/local/bin/kubectl config view'
+          sh 'kubectl config view'
           echo "${env.GIT_TAG}"
           echo "${env.GIT_HEAD}"
           echo "${env.PRODUCT_NAME}"
