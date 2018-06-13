@@ -38,6 +38,7 @@ spec:
       steps {
         container('node') {
           echo 'Pre-Build started'
+          sh 'echo $HOSTNAME'
           sh 'git remote -v'
           sh 'git log --reverse -1|tail'
           script {
@@ -51,12 +52,13 @@ spec:
       steps {
         container('node2') {
           echo 'Build'
+          sh 'echo $HOSTNAME'
           sh 'git remote -v'
           echo "${env.GIT_TAG}"
           echo "${env.GIT_HEAD}"
           echo "${env.PRODUCT_NAME}"
-          sh 'cp -f .env.example .env'
-          sh 'yarn install'
+          echo 'cp -f .env.example .env'
+          sh 'npm install'
         }
       }
     }
@@ -64,12 +66,13 @@ spec:
       steps {
         container('node2') {
           echo 'Test'
+          sh 'echo $HOSTNAME'
           sh 'git remote -v'
           echo "${env.GIT_TAG}"
           echo "${env.GIT_HEAD}"
           echo "${env.PRODUCT_NAME}"
-          echo 'yarn lint'
-          echo 'yarn test'
+          echo 'npm lint'
+          echo 'npm test'
         }
       }
     }
