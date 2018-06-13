@@ -50,7 +50,7 @@ spec:
     }
     stage('Build') {
       steps {
-        container('node2') {
+        container('node') {
           echo 'Build'
           sh 'echo $HOSTNAME'
           sh 'git remote -v'
