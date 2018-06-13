@@ -61,9 +61,9 @@ pipeline {
         container('docker') {
           echo 'Building docker for development'
           script {
-            dockerDev = docker.build("registry.zrcdn.xyz/apiwat/${env.PRODUCT_NAME}:${env.BRANCH_NAME}-${env.GIT_HEAD}", "-f Dockerfile --build-arg NPM_TOKEN=${env.NPM_TOKEN} .")
             docker.withRegistry('https://registry.zrcdn.xyz', 'zr-registry') {
-              dockerDev.push("${env.BRANCH_NAME}-${env.GIT_HEAD}")
+              app = docker.build("registry.zrcdn.xyz/apiwat/${env.PRODUCT_NAME}:${env.BRANCH_NAME}-${env.GIT_HEAD}", "-f Dockerfile .")
+              app.push("${env.BRANCH_NAME}-${env.GIT_HEAD}")
             }
           }
         }
