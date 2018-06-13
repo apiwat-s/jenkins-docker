@@ -67,7 +67,7 @@ spec:
         container('golang') {
           echo 'Test'
           sh 'echo $HOSTNAME'
-          echo 'git remote -v'
+          sh 'git remote -v'
           echo "${env.GIT_TAG}"
           echo "${env.GIT_HEAD}"
           echo "${env.PRODUCT_NAME}"
