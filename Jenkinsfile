@@ -29,10 +29,9 @@ pipeline {
     }
     stage('Build') {
       steps {
-        container('node') {
+        container('docker') {
           echo 'Build'
           sh 'echo $HOSTNAME'
-          sh 'git remote -v'
           echo "${env.GIT_TAG}"
           echo "${env.GIT_HEAD}"
           echo "${env.NPM_TOKEN}"
