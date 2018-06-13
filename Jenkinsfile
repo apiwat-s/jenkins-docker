@@ -17,6 +17,7 @@ pipeline {
       steps {
         container('node') {
           echo 'Pre-Build started'
+          sh 'whoami'
           sh 'echo $HOSTNAME'
           sh 'git remote -v'
           sh 'git log --reverse -1|tail'
@@ -31,6 +32,7 @@ pipeline {
       steps {
         container('node') {
           echo 'Build'
+          sh 'whoami'
           sh 'echo $HOSTNAME'
           echo "${env.GIT_TAG}"
           echo "${env.GIT_HEAD}"
