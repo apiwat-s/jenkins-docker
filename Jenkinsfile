@@ -71,7 +71,7 @@ spec:
           echo "${env.GIT_TAG}"
           echo "${env.GIT_HEAD}"
           echo "${env.PRODUCT_NAME}"
-          echo 'go version'
+          sh 'go version'
         }
       }
     }
