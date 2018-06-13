@@ -1,29 +1,8 @@
 pipeline {
   agent {
     kubernetes {
-      label 'mypod'
+      label 'k8s-slave'
       defaultContainer 'jnlp'
-      yaml """
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    some-label: some-label-value
-spec:
-  containers:
-  - name: node
-    image: registry.zrcdn.xyz/arun/arun-base:node8-alpine
-    command:
-    - cat
-    tty: true
-  - name: golang
-    image: golang:1.8.0
-    command:
-    - cat
-    tty: true
-  imagePullSecrets:
-    - name: zr-registry
-"""
     }
   }
   options { disableConcurrentBuilds() }
@@ -88,7 +67,6 @@ spec:
         echo "${env.GIT_TAG}"
         echo "${env.GIT_HEAD}"
         echo "${env.PRODUCT_NAME}"
-        sh 'go version'
       }
     }
   }
