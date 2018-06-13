@@ -42,7 +42,7 @@ pipeline {
     }
     stage('Test') {
       steps {
-        container('kubectl') {
+        container('node') {
           echo 'Test'
           sh 'echo $HOSTNAME'
           sh 'kubectl config view'
