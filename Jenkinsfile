@@ -5,11 +5,10 @@ pipeline {
       defaultContainer 'jnlp'
     }
   }
-  options { disableConcurrentBuilds() }
   environment {
-    PRODUCT_NAME = 'crm-client'
-    DESK_DEV_SERVER = '188.166.224.25'
     CI = 'true'
+    PRODUCT_NAME = 'jenkins-docker'
+    DESK_DEV_SERVER = '188.166.224.25'
     GITHUB_TOKEN = credentials('e9ac4e50-9eba-4ad3-a8b6-c6a36796248b');
   }
   stages {
@@ -17,12 +16,8 @@ pipeline {
       steps {
         container('node') {
           echo 'Pre-Build started'
-          sh 'whoami'
-          sh 'echo $HOSTNAME'
-          sh 'git remote -v'
           sh 'git log --reverse -1|tail'
           script {
-            env.GIT_TAG = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
             env.GIT_HEAD = sh(returnStdout: true, script: "git rev-parse --short HEAD").trim()
           }
         }
@@ -31,26 +26,18 @@ pipeline {
     stage('Build') {
       steps {
         container('node') {
-          echo 'Build'
-          sh 'whoami'
-          sh 'echo $HOSTNAME'
-          echo "${env.GIT_TAG}"
+          echo 'Building'
           echo "${env.GIT_HEAD}"
-          echo "${env.NPM_TOKEN}"
+          sh 'yarn install'
         }
       }
     }
     stage('Test') {
       steps {
         container('node') {
-          echo 'Test'
-          sh 'whoami'
-          sh 'printenv'
-          sh 'echo $HOSTNAME'
-          sh 'kubectl config view'
-          echo "${env.GIT_TAG}"
-          echo "${env.GIT_HEAD}"
-          echo "${env.PRODUCT_NAME}"
+          echo 'Testing'
+          sh 'yarn lint'
+          echo 'yarn test'
         }
       }
     }
@@ -59,14 +46,27 @@ pipeline {
         expression { BRANCH_NAME ==~ /(develop|master|production)/ }
       }
       steps {
-        echo 'Versioning'
-        echo 'npm version patch -m "Bumped to %s"'
-        echo 'git push --tags'
-        sh 'git remote -v'
-        sh 'echo $HOSTNAME'
-        echo "${env.GIT_TAG}"
-        echo "${env.GIT_HEAD}"
-        echo "${env.PRODUCT_NAME}"
+        container('node') {
+          echo 'Versioning'
+          echo 'npm version patch -m "Bumped to %s"'
+          echo 'git push --tags'
+        }
+      }
+    }
+    stage('Build Docker') {
+      when {
+        branch 'master'
+      }
+      steps {
+        container('docker') {
+          echo 'Building docker for development'
+          script {
+            dockerDev = docker.build("registry.zrcdn.xyz/apiwat/${env.PRODUCT_NAME}:${env.BRANCH_NAME}-${env.GIT_HEAD}", "-f Dockerfile --build-arg NPM_TOKEN=${env.NPM_TOKEN} .")
+            docker.withRegistry('https://registry.zrcdn.xyz', 'zr-registry') {
+              dockerDev.push("${env.BRANCH_NAME}-${env.GIT_HEAD}")
+            }
+          }
+        }
       }
     }
   }
