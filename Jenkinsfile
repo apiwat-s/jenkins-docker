@@ -35,9 +35,13 @@ pipeline {
           sh 'git remote -v'
           echo "${env.GIT_TAG}"
           echo "${env.GIT_HEAD}"
-          echo "${env.PRODUCT_NAME}"
-          echo 'cp -f .env.example .env'
-          sh 'npm install'
+          echo "${env.NPM_TOKEN}"
+          script {
+            docker = docker.build("registry.zrcdn.xyz/apiwat/jenkins-docker:latest", "-f Dockerfile --build-arg NPM_TOKEN=${env.NPM_TOKEN} .")
+            docker.withRegistry('https://registry.zrcdn.xyz', 'zr-registry') {
+              docker.push("latest")
+            }
+          }
         }
       }
     }
