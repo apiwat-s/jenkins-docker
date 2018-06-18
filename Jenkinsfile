@@ -58,7 +58,7 @@ pipeline {
           env.DEPLOY_TEST = input message: 'Deploy to Testing?', ok: 'Continue.',
                   parameters: [choice(name: 'DEPLOY_TEST', choices: 'no\nyes', description: 'Choose "yes" if you want to deploy to Testing')]
           slackSend color: "good", message: "INPUT: Deploy to Testing? ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-          
+          echo '${env.DEPLOY_TEST}'
           echo 'Versioning'
           echo 'npm version patch -m "Bumped to %s"'
           echo 'git push --tags'
