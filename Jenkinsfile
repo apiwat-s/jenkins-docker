@@ -16,6 +16,7 @@ pipeline {
       steps {
         container('node') {
           echo 'Pre-Build started'
+          slackSend color: "good", message: "STARTED: ${env.JOB_NAME} ${env.BUILD_NUMBER} on ${env.BRANCH_NAME} (<${env.BUILD_URL}|Open>)"
           sh 'git log --reverse -1|tail'
           script {
             env.GIT_HEAD = sh(returnStdout: true, script: "git rev-parse --short HEAD").trim()
