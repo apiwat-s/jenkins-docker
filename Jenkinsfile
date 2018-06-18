@@ -16,7 +16,7 @@ pipeline {
       steps {
         container('node') {
           echo 'Pre-Build started'
-          slackSend color: "good", message: "STARTED: ${env.JOB_NAME} ${env.BUILD_NUMBER} on ${env.BRANCH_NAME} (<${env.BUILD_URL}|Open>)"
+          slackSend color: "good", message: "STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
           sh 'git log --reverse -1|tail'
           script {
             env.GIT_HEAD = sh(returnStdout: true, script: "git rev-parse --short HEAD").trim()
@@ -30,6 +30,13 @@ pipeline {
           echo 'Building'
           echo "${env.GIT_HEAD}"
           sh 'yarn install'
+          script {
+            if currentBuild.result == "SUCCESS" {
+              slackSend color: "good", message: "DEPLOYED DEV: ${currentBuild.result} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+            } else {
+              slackSend color: "danger", message: "DEPLOYED DEV: ${currentBuild.result} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+            }
+          }
         }
       }
     }
@@ -69,6 +76,14 @@ pipeline {
           }
         }
       }
+    }
+  }
+  post {
+    success {
+      slackSend color: "good", message: "PASSES: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+    }
+    failure {
+      slackSend color: "danger", message: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
     }
   }
 }
