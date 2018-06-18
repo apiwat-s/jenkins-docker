@@ -30,11 +30,12 @@ pipeline {
           echo 'Building'
           echo "${env.GIT_HEAD}"
           sh 'yarn install'
+          sh 'exit 1'
           script {
             if (currentBuild.currentResult == "SUCCESS") {
-              slackSend color: "good", message: "DEPLOYED DEV: ${currentBuild.currentResult} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+              slackSend color: "good", message: "DEPLOYED DEV: ${currentBuild.currentResult} ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
             } else {
-              slackSend color: "danger", message: "DEPLOYED DEV: ${currentBuild.currentResult} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+              slackSend color: "danger", message: "DEPLOYED DEV: ${currentBuild.currentResult} ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
             }
           }
         }
@@ -80,10 +81,10 @@ pipeline {
   }
   post {
     success {
-      slackSend color: "good", message: "${currentBuild.result}: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+      slackSend color: "good", message: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
     }
     failure {
-      slackSend color: "danger", message: "${currentBuild.result}: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+      slackSend color: "danger", message: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
     }
   }
 }
