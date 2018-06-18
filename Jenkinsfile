@@ -31,7 +31,7 @@ pipeline {
           echo "${env.GIT_HEAD}"
           sh 'yarn install'
           script {
-            if currentBuild.result == "SUCCESS" {
+            if (currentBuild.result == "STABLE") {
               slackSend color: "good", message: "DEPLOYED DEV: ${currentBuild.result} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
             } else {
               slackSend color: "danger", message: "DEPLOYED DEV: ${currentBuild.result} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
