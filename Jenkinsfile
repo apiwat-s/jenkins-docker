@@ -19,8 +19,10 @@ pipeline {
           slackSend color: "good", message: "STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
           sh 'git log --reverse -1|tail'
           script {
+            env.GIT_LOG = sh(returnStdout: true, script: "git log --oneline --reverse -1|cat").trim()
             env.GIT_HEAD = sh(returnStdout: true, script: "git rev-parse --short HEAD").trim()
           }
+          slackSend color: "good", message: "BUILD INFO: ${env.GIT_LOG}"
         }
       }
     }
