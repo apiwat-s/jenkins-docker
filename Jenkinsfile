@@ -8,7 +8,6 @@ pipeline {
   environment {
     CI = 'true'
     PRODUCT_NAME = 'jenkins-docker'
-    DESK_DEV_SERVER = '188.166.224.25'
     GITHUB_TOKEN = credentials('e9ac4e50-9eba-4ad3-a8b6-c6a36796248b');
   }
   stages {
