@@ -6,21 +6,21 @@ jenkinsPipeline {
     webhookTokenId = 'devops-webhook-token'
     productName = 'jenkins-docker'
     
-    developmentServer = '188.166.253.7'
+    developmentServer = ''
     testingServer = ''
     stagingServer = ''
     productionServer = ''
 
-    buildCmd = 'pwd; ls; yarn install'
-    lintCmd = 'pwd; ls; yarn lint'
-    testCmd = 'pwd; ls; yarn test'
+    buildCmd = 'yarn install'
+    lintCmd = 'yarn lint'
+    testCmd = 'yarn test'
 
     deployDevCmd = 'uptime'
     deployTestCmd = 'uptime'
     deployStagCmd = 'uptime'
     deployProdCmd = 'uptime'
 
-    dockerBuild = false
+    dockerBuild = true
     dockerBuildEnv = false
 
     inputTimeout = 3
