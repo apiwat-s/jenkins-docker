@@ -6,7 +6,7 @@
   "author": "Apiwat Suksuwan <apiwat.s@zanroo.com>",
   "license": "MIT",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest test/*.js --runInBand",
     "start": "node main.js",
     "lint": "standard --fix | snazzy"
   },
@@ -14,7 +14,14 @@
     "express": "^4.16.2"
   },
   "devDependencies": {
+    "jest": "^23.2.0",
     "snazzy": "^7.1.1",
-    "standard": "^11.0.1"
+    "standard": "^11.0.1",
+    "supertest": "^3.1.0"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ]
   }
 }
