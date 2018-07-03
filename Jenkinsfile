@@ -11,9 +11,9 @@ jenkinsPipeline {
     stagingServer = ''
     productionServer = ''
 
-    buildCmd = 'yarn install'
-    lintCmd = 'yarn lint'
-    testCmd = 'yarn test'
+    buildCmd = 'pwd; ls; yarn install'
+    lintCmd = 'pwd; ls; yarn lint'
+    testCmd = 'pwd; ls;yarn test'
 
     deployDevCmd = 'uptime'
     deployTestCmd = 'uptime'
