@@ -13,7 +13,7 @@ jenkinsPipeline {
 
     buildCmd = 'pwd; ls; yarn install'
     lintCmd = 'pwd; ls; yarn lint'
-    testCmd = 'pwd; ls;yarn test'
+    testCmd = 'pwd; ls; yarn test'
 
     deployDevCmd = 'uptime'
     deployTestCmd = 'uptime'
