@@ -19,6 +19,6 @@ jenkinsPipeline {
     deployStagCmd = 'uptime'
     deployProdCmd = 'uptime'
 
-    dockerBuild = true
+    dockerBuild = false
     dockerBuildEnv = false
 }
